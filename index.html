@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker App by Ness</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <header class="header">
+        <h1 class="h1">Habit Tracker App by Ness</h1>
+    </header>
+
+    <main class="main">
+        <section class="add-habit">
+            <h2 class="h2">Add New Habit</h2>
+
+            <form action="" id="add-habit-form" class="habit-form">
+                <label for="habitName">Habit Name</label>
+                <input type="text" id="habitName" name="habitName" placeholder="Enter your habit" autocomplete="off">
+
+                <label for="goal">Goal</label>
+                <input type="text" id="goal" name="goal" placeholder="Enter your goal" autocomplete="off" required>
+
+                <label for="repeat">Repeat</label>
+                <select name="repeat" id="repeat">
+                    <option value="" disabled selected>Select Frequency</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Custom</option>
+                </select>
+                <fieldset name="custom" class="custom hidden">
+                    <legend>Select Days</legend>
+                    
+                    <input type="checkbox" id="sun" name="custom-day">
+                    <label for="sun">Sun</label>
+
+                    <input type="checkbox" id="mon" name="custom-day">
+                    <label for="mon">Mon</label>
+
+                    <input type="checkbox" id="tue" name="custom-day">
+                    <label for="tue">Tue</label>
+
+                    <input type="checkbox" id="wed" name="custom-day">
+                    <label for="wed">Wed</label>
+
+                    <input type="checkbox" id="thu" name="custom-day">
+                    <label for="thu">Thu</label>
+
+                    <input type="checkbox" id="fri" name="custom-day">
+                    <label for="fri">Fri</label>
+
+                    <input type="checkbox" id="sat" name="custom-day">
+                    <label for="sat">Sat</label>
+
+                </fieldset>
+
+                <label for="startTime">Start Time</label>
+                <input type="time" id="startTime" name="startTime" required>
+
+                <label for="duration">Duration</label>
+                <div role="group" aria-label="duration">
+                    <input type="number" id="duration" name="duration" placeholder="Enter duration" min="1" required>
+                    <select name="unitNumber" id="unitNumber">
+                        <option value="min">min</option>
+                        <option value="hour">hour</option>
+                    </select>
+                </div>
+                
+                <button type="submit" id="addHabitButton" class="primary-btn">Add Habit</button>
+            </form>
+        </section>
+
+        <section class="list-habit">
+            <h2 class="h2">Your Habit</h2>
+        </section>
+
+    </main>
+    
+    
+    <footer class="footer">
+        <p class="p">Created by Ness</p>
+    </footer>
+
+
+
+    <script src="script.js"></script>
+</body>
+</html>

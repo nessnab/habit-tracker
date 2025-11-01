@@ -1,0 +1,94 @@
+:root {
+    --primary-color: #0071e3;
+    --secondary-color: #f44336;
+    --font-color: #333;
+    --background-color: #f4f4f4;
+    --white-color: #fff;
+    --font-family: Arial, sans-serif;
+    --font-normal: 16px;
+    --font-larger: 1.5rem;
+    --font-largest: 2rem;
+    --font-bold: 700;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: var(--font-size);
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--font-color);
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 50px;
+}
+
+.h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: var(--font-largest);
+}
+
+.h2 {
+    margin-bottom: 15px;
+    font-size: var(--font-larger);
+}
+
+.habit-form {
+    background: var(--white-color);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+}
+
+.habit-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: var(--font-bold);
+}
+
+.habit-form input[type="text"],
+.habit-form select, .habit-form input[type="time"], .habit-form input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.habit-form fieldset {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 3px;
+}
+
+/* Hide Custom Days */
+.custom.hidden {
+    display: none;
+}
+
+.primary-btn {
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin: 10px 0;
+    cursor: pointer;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.primary-btn:hover {
+    opacity: 90%;
+}

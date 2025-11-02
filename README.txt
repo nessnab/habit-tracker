@@ -4,6 +4,7 @@ A simple, responsive habit tracker built with HTML, CSS, and JavaScript. Designe
 
 ✅ Features progress:
 - Simple form for adding Habit
+- Displaying added habit
 
 🚀 Key Features Check
 

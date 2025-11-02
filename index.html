@@ -17,64 +17,79 @@
         <section class="add-habit">
             <h2 class="h2">Add New Habit</h2>
 
-            <form action="" id="add-habit-form" class="habit-form">
+            <form id="habitForm" class="habit-form">
                 <label for="habitName">Habit Name</label>
                 <input type="text" id="habitName" name="habitName" placeholder="Enter your habit" autocomplete="off">
 
                 <label for="goal">Goal</label>
-                <input type="text" id="goal" name="goal" placeholder="Enter your goal" autocomplete="off" required>
+                <input type="text" id="habitGoal" name="goal" placeholder="Enter your goal" autocomplete="off" required>
 
                 <label for="repeat">Repeat</label>
-                <select name="repeat" id="repeat">
+                <select name="repeat" id="habitRepeat">
                     <option value="" disabled selected>Select Frequency</option>
                     <option value="daily">Daily</option>
                     <option value="weekly">Weekly</option>
-                    <option value="monthly">Custom</option>
+                    <option value="custom">Custom</option>
                 </select>
-                <fieldset name="custom" class="custom hidden">
+
+                <fieldset name="weekly-custom" class="weekly-day hidden">
+
+                    <legend>Select Day</legend>
+                    <label><input type="radio" name="weekly-day" value="Monday"> Sun</label>
+                    <label><input type="radio" name="weekly-day" value="Monday"> Mon</label>
+                    <label><input type="radio" name="weekly-day" value="Monday"> Tue</label>
+                    <label><input type="radio" name="weekly-day" value="Monday"> Wed</label>
+                    <label><input type="radio" name="weekly-day" value="Monday"> Thu</label>
+                    <label><input type="radio" name="weekly-day" value="Monday"> Fri</label>
+                    <label><input type="radio" name="weekly-day" value="Monday"> Sat</label>
+
+                </fieldset>
+
+                <fieldset name="custom-day" class="custom-day hidden">
                     <legend>Select Days</legend>
                     
-                    <input type="checkbox" id="sun" name="custom-day">
+                    <input type="checkbox" id="sun" name="custom-day" value="sunday">
                     <label for="sun">Sun</label>
 
-                    <input type="checkbox" id="mon" name="custom-day">
+                    <input type="checkbox" id="mon" name="custom-day" value="monday">
                     <label for="mon">Mon</label>
 
-                    <input type="checkbox" id="tue" name="custom-day">
+                    <input type="checkbox" id="tue" name="custom-day" value="tuesday">
                     <label for="tue">Tue</label>
 
-                    <input type="checkbox" id="wed" name="custom-day">
+                    <input type="checkbox" id="wed" name="custom-day" value="wednesday">
                     <label for="wed">Wed</label>
 
-                    <input type="checkbox" id="thu" name="custom-day">
+                    <input type="checkbox" id="thu" name="custom-day" value="thursday">
                     <label for="thu">Thu</label>
 
-                    <input type="checkbox" id="fri" name="custom-day">
+                    <input type="checkbox" id="fri" name="custom-day" value="friday">
                     <label for="fri">Fri</label>
 
-                    <input type="checkbox" id="sat" name="custom-day">
+                    <input type="checkbox" id="sat" name="custom-day" value="saturday">
                     <label for="sat">Sat</label>
-
                 </fieldset>
 
                 <label for="startTime">Start Time</label>
                 <input type="time" id="startTime" name="startTime" required>
 
-                <label for="duration">Duration</label>
+                <!-- <label for="duration">Duration</label>
                 <div role="group" aria-label="duration">
                     <input type="number" id="duration" name="duration" placeholder="Enter duration" min="1" required>
                     <select name="unitNumber" id="unitNumber">
                         <option value="min">min</option>
                         <option value="hour">hour</option>
                     </select>
-                </div>
+                </div> -->
                 
                 <button type="submit" id="addHabitButton" class="primary-btn">Add Habit</button>
             </form>
         </section>
 
-        <section class="list-habit">
+        <section class="habit-list" id="habitList">
             <h2 class="h2">Your Habit</h2>
+            <!-- <div class="habit-item" id="habitItem">
+            </div> -->
         </section>
 
     </main>

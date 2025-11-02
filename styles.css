@@ -63,7 +63,7 @@ body {
     border-radius: 3px;
 }
 
-.habit-form fieldset {
+.custom-day {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -75,7 +75,7 @@ body {
 }
 
 /* Hide Custom Days */
-.custom.hidden {
+.hidden {
     display: none;
 }
 
@@ -91,4 +91,25 @@ body {
 
 .primary-btn:hover {
     opacity: 90%;
+}
+
+/* Habit List Item */
+.habit-list {
+    display: block;
+    margin-top: 30px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.habit-item {
+    background: var(--white-color);
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    text-transform: capitalize;
+}
+
+.habit-item h3 {
+    font-size: var(--font-larger);
 }

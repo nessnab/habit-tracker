@@ -1,16 +1,25 @@
+const habitForm = document.getElementById('habitForm');
+const habitList = document.getElementById('habitList');
+// Get form values
+const habitTitle = document.getElementById('habitTitle');
+const habitGoal = document.getElementById('habitGoal');
+const habitRepeat = document.getElementById('habitRepeat');
+const habitStartTime = document.getElementById('startTime');
 
-//Show or hide custom days based on repeat selection
-const repeatSelect = document.getElementById('habitRepeat');
 const customDays = document.querySelector('.custom-day');
 const weeklyDay = document.querySelector('.weekly-day');
+    
 
-repeatSelect.addEventListener('change', () => {
-  const value = repeatSelect.value;
 
-  if (value === 'custom') {
+const habitData = JSON.parse(localStorage.getItem('habits')) || [];
+let currentHabit = {};
+
+//Show or hide custom days based on repeat selection
+habitRepeat.addEventListener('change', () => {
+  if (habitRepeat.value === 'every') {
     customDays.classList.remove('hidden');
     weeklyDay.classList.add('hidden');
-  } else if (value === 'weekly') {
+  } else if (habitRepeat.value === 'weekly') {
     weeklyDay.classList.remove('hidden');
     customDays.classList.add('hidden');
   } else {
@@ -19,55 +28,88 @@ repeatSelect.addEventListener('change', () => {
   }
 });
 
-// Handle form submission
-const habitForm = document.getElementById('habitForm');
+//try using toggle
 
+
+// Handle form submission
+const addOrEditHabit = () => {
+
+  //Weekly Selected Day
+  const selectedWeekly = document.querySelector('input[name="weekly-day"]:checked');
+  const selectedWeeklyDay = selectedWeekly ? selectedWeekly.value : null; //null if not selected
+
+  //Custom Selected Days
+  const selectedCustomDays = Array.from(document.querySelectorAll('input[name="custom-day"]:checked')).map(day => day.value);
+
+  const dataIndex = habitData.findIndex((item) => item.id === currentHabit.id);
+
+  const habitObj = {
+      id: Date.now(),
+      name: habitTitle.value,
+      goal: habitGoal.value,
+      repeat: habitRepeat.value,
+      startTime: habitStartTime.value,
+      weeklyDay: selectedWeeklyDay,
+      customDays: selectedCustomDays
+  };
+  
+  if (dataIndex === -1) {
+      habitData.unshift(habitObj);
+  } else {
+      habitData[dataIndex] = habitObj;
+  }
+
+  localStorage.setItem('habits', JSON.stringify(habitData));
+  showAllHabits();
+  // reset()
+}
+
+console.log(habitData);
+
+//Display added habit
+const habitCard = (habit) => {
+  const { name, goal, repeat, startTime, weeklyDay, customDays } = habit;
+
+  const card = document.createElement('div');
+  card.classList.add('habit-card');
+
+  card.innerHTML = `
+    <h3 class="habit-name">${name}</h3>
+    <p class="habit-goal">Goal: ${goal}</p>
+    <p class="habit-repeat">Repeat: ${repeat}
+    ${repeat === 'weekly' ? ` ${weeklyDay}</p>` : ''}
+    ${repeat === 'every' ? ` ${customDays.join(', ')}` : ''}</p>
+    <p class="habit-start-time">Start Time: ${startTime}</p>
+      `;
+
+    return card;
+    // showAllHabits();
+  
+}
+
+// Render functions
+
+const clearHabitDisplay = () => {
+  habitList.innerHTML = '';
+}
+
+const showAllHabits = () => {
+  clearHabitDisplay();
+  habitData.forEach(habit => {
+    const card = habitCard(habit);
+    habitList.appendChild(card);
+  });
+}
+
+if (habitData.length > 0) {
+  showAllHabits();
+}
+      
 habitForm.addEventListener('submit', (e) => {
     e.preventDefault(); // Prevent form from submitting normally
-
-    // Get form values
-    const habitName = document.getElementById('habitName').value;
-    const habitGoal = document.getElementById('habitGoal').value;
-    const habitRepeat = document.getElementById('habitRepeat').value;
-    const habitStartTime = document.getElementById('startTime').value;
-    
-    //Weekly Selected Day
-    const selectedWeekly = document.querySelector('input[name="weekly-day"]:checked');
-    const selectedWeeklyDay = selectedWeekly ? selectedWeekly.value : null; //null if not selected
-
-    //Custom Selected Days
-    const selectedCustomDays = Array.from(document.querySelectorAll('input[name="custom-day"]:checked')).map(day => day.value);
-
-    // Create habit object
-    const habit = {
-        name: habitName,
-        goal: habitGoal,
-        repeat: habitRepeat,
-        startTime: habitStartTime,
-        weeklyDay: selectedWeeklyDay,
-        customDays: selectedCustomDays
-    };
-
-    //Displaying Habit added
-    
-    const habitList = document.getElementById('habitList');
-    const habitItem = document.createElement('div');
-    habitItem.classList.add('habit-item');
-    
-    habitItem.innerHTML = `
-        <h3>${habit.name}</h3>
-        <p><b>Goal:</b> ${habit.goal}</p>
-        <p><b>Repeat:</b> ${habit.repeat}</p>
-        ${habit.repeat === 'weekly' ? `<p><b>Day:</b> ${habit.weeklyDay}</p>` : ''}
-        ${habit.repeat === 'custom' ? `<p><b>Days:</b> ${habit.customDays.join(', ')}</p>` : ''}
-        <p><b>Start Time:</b> ${habit.startTime}</p>
-    `;
-    
-    habitList.appendChild(habitItem);
-
-    // Reset form
-    habitForm.reset();
-});
+    addOrEditHabit();
+  }
+)
 
 // CHECKLIST
 // add icon for adding habit, hide the rest of the form

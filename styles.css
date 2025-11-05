@@ -101,7 +101,7 @@ body {
     max-width: 600px;
 }
 
-.habit-item {
+.habit-card {
     background: var(--white-color);
     padding: 15px;
     border-radius: 5px;
@@ -110,6 +110,6 @@ body {
     text-transform: capitalize;
 }
 
-.habit-item h3 {
+.habit-card h3 {
     font-size: var(--font-larger);
 }

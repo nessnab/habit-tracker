@@ -18,8 +18,8 @@
             <h2 class="h2">Add New Habit</h2>
 
             <form id="habitForm" class="habit-form">
-                <label for="habitName">Habit Name</label>
-                <input type="text" id="habitName" name="habitName" placeholder="Enter your habit" autocomplete="off">
+                <label for="habitName">Habit Title</label>
+                <input type="text" id="habitTitle" name="habitTitle" placeholder="Enter your habit" autocomplete="off">
 
                 <label for="goal">Goal</label>
                 <input type="text" id="habitGoal" name="goal" placeholder="Enter your goal" autocomplete="off" required>
@@ -29,19 +29,19 @@
                     <option value="" disabled selected>Select Frequency</option>
                     <option value="daily">Daily</option>
                     <option value="weekly">Weekly</option>
-                    <option value="custom">Custom</option>
+                    <option value="every">Custom</option>
                 </select>
 
                 <fieldset name="weekly-custom" class="weekly-day hidden">
 
                     <legend>Select Day</legend>
-                    <label><input type="radio" name="weekly-day" value="Monday"> Sun</label>
+                    <label><input type="radio" name="weekly-day" value="Sunday"> Sun</label>
                     <label><input type="radio" name="weekly-day" value="Monday"> Mon</label>
-                    <label><input type="radio" name="weekly-day" value="Monday"> Tue</label>
-                    <label><input type="radio" name="weekly-day" value="Monday"> Wed</label>
-                    <label><input type="radio" name="weekly-day" value="Monday"> Thu</label>
-                    <label><input type="radio" name="weekly-day" value="Monday"> Fri</label>
-                    <label><input type="radio" name="weekly-day" value="Monday"> Sat</label>
+                    <label><input type="radio" name="weekly-day" value="Tuesday"> Tue</label>
+                    <label><input type="radio" name="weekly-day" value="Wednesday"> Wed</label>
+                    <label><input type="radio" name="weekly-day" value="Thursday"> Thu</label>
+                    <label><input type="radio" name="weekly-day" value="Friday"> Fri</label>
+                    <label><input type="radio" name="weekly-day" value="Saturday"> Sat</label>
 
                 </fieldset>
 

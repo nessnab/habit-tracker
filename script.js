@@ -61,9 +61,11 @@ const addOrEditHabit = () => {
 
   localStorage.setItem('habits', JSON.stringify(habitData));
   showAllHabits();
-  // reset()
+  resetForm();
+  // habitForm.reset();
 }
 
+// console.log(currentHabit);
 console.log(habitData);
 
 //Display added habit
@@ -72,6 +74,7 @@ const habitCard = (habit) => {
 
   const card = document.createElement('div');
   card.classList.add('habit-card');
+  card.id = habit.id;
 
   card.innerHTML = `
     <h3 class="habit-name">${name}</h3>
@@ -82,8 +85,19 @@ const habitCard = (habit) => {
     <p class="habit-start-time">Start Time: ${startTime}</p>
       `;
 
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = 'Delete';
+    deleteBtn.classList.add('primary-btn');
+    deleteBtn.classList.add('delete');
+    deleteBtn.dataset.id = habit.id;
+
+    deleteBtn.addEventListener('click', () => {
+      deleteHabit(habit.id);
+    })
+
+    card.appendChild(deleteBtn);
+
     return card;
-    // showAllHabits();
   
 }
 
@@ -110,6 +124,39 @@ habitForm.addEventListener('submit', (e) => {
     addOrEditHabit();
   }
 )
+
+// reset form
+const resetForm = () => {
+  //Clear form inputs
+  habitTitle.value = '';
+  habitGoal.value = '';
+  habitRepeat.value = '';
+  habitStartTime.value = '';
+
+  //hide custom and weekly day selectors
+  customDays.classList.add('hidden');
+  weeklyDay.classList.add('hidden');
+
+  //uncheck all day checkboxes
+  document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
+
+  currentHabit = {};
+}
+
+
+
+const deleteHabit = (id) => {
+  const dataIndex = habitData.findIndex(habit => habit.id === Number(id));
+
+  if (dataIndex !== -1) {
+    habitData.splice(dataIndex, 1);
+    localStorage.setItem("habits", JSON.stringify(habitData));
+    showAllHabits();
+  }
+
+}
+
+
 
 // CHECKLIST
 // add icon for adding habit, hide the rest of the form

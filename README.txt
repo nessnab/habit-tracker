@@ -5,7 +5,8 @@ A simple, responsive habit tracker built with HTML, CSS, and JavaScript. Designe
 ✅ Features progress:
 - Simple form for adding Habit
 - Displaying added habit
-- config to localStorage
+- Config to localStorage
+- Delete button 
 
 🚀 Key Features Check
 

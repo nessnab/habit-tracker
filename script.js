@@ -1,3 +1,5 @@
+const addBtn = document.getElementById('addBtn');
+const cancelBtn = document.getElementById('cancelBtn');
 const habitForm = document.getElementById('habitForm');
 const habitList = document.getElementById('habitList');
 // Get form values
@@ -11,6 +13,17 @@ const weeklyDay = document.querySelector('.weekly-day');
     
 
 
+// Add button
+const addBtnToggle = () => {
+    addBtn.classList.toggle('hidden');
+    habitForm.classList.toggle('hidden');
+}
+
+addBtn.addEventListener('click', () => {
+  addBtnToggle();
+})
+
+// Local storage
 const habitData = JSON.parse(localStorage.getItem('habits')) || [];
 let currentHabit = {};
 
@@ -27,9 +40,6 @@ habitRepeat.addEventListener('change', () => {
     weeklyDay.classList.add('hidden');
   }
 });
-
-//try using toggle
-
 
 // Handle form submission
 const addOrEditHabit = () => {
@@ -62,8 +72,15 @@ const addOrEditHabit = () => {
   localStorage.setItem('habits', JSON.stringify(habitData));
   showAllHabits();
   resetForm();
+  addBtnToggle();
   // habitForm.reset();
 }
+
+
+// Cancel Button
+cancelBtn.addEventListener('click', () => {
+  addBtnToggle();
+});
 
 // console.log(currentHabit);
 console.log(habitData);
@@ -80,15 +97,16 @@ const habitCard = (habit) => {
     <h3 class="habit-name">${name}</h3>
     <p class="habit-goal">Goal: ${goal}</p>
     <p class="habit-repeat">Repeat: ${repeat}
-    ${repeat === 'weekly' ? ` ${weeklyDay}</p>` : ''}
+    ${repeat === 'weekly' ? ` on ${weeklyDay}</p>` : ''}
     ${repeat === 'every' ? ` ${customDays.join(', ')}` : ''}</p>
     <p class="habit-start-time">Start Time: ${startTime}</p>
       `;
 
+      //delete button
     const deleteBtn = document.createElement('button');
     deleteBtn.textContent = 'Delete';
     deleteBtn.classList.add('primary-btn');
-    deleteBtn.classList.add('delete');
+    // deleteBtn.classList.add('delete-btn');
     deleteBtn.dataset.id = habit.id;
 
     deleteBtn.addEventListener('click', () => {
@@ -96,6 +114,12 @@ const habitCard = (habit) => {
     })
 
     card.appendChild(deleteBtn);
+
+    //edit button
+    // const editBtn = document.createElement('button');
+    // editBtn.textContent = 'Edit';
+    // editBtn.classList.add('primary-btn');
+    // editBtn.classList.add('edit-btn');
 
     return card;
   

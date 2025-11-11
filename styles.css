@@ -39,6 +39,44 @@ body {
     font-size: var(--font-larger);
 }
 
+.fa {
+    padding-right: 5px;
+    font-size: var(--font-normal);
+}
+
+.primary-btn {
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin: 10px 0;
+    cursor: pointer;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+    align-items: center;
+    justify-content: center;
+}
+
+.primary-btn:hover {
+    opacity: 90%;
+}
+
+.cancel-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--secondary-color);
+    text-align: right;
+    width: 100%;
+}
+
+.add-habit, .habit-display {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 .habit-form {
     background: var(--white-color);
     padding: 20px;
@@ -79,19 +117,7 @@ body {
     display: none;
 }
 
-.primary-btn {
-    padding: 10px 15px;
-    border-radius: 5px;
-    margin: 10px 0;
-    cursor: pointer;
-    border: none;
-    background-color: var(--primary-color);
-    color: white;
-}
 
-.primary-btn:hover {
-    opacity: 90%;
-}
 
 /* Habit List Item */
 .habit-list {

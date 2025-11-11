@@ -6,6 +6,7 @@
     <title>Habit Tracker App by Ness</title>
 
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     
@@ -15,9 +16,16 @@
 
     <main class="main">
         <section class="add-habit">
-            <h2 class="h2">Add New Habit</h2>
+            <button type="button" class="primary-btn add-btn" id="addBtn">
+                <i class="fa fa-plus-square"></i>
+                <span>Add New Habit</span>
+            </button>
+            <!-- <h2 class="h2">Add New Habit</h2> -->
 
-            <form id="habitForm" class="habit-form">
+            <form id="habitForm" class="habit-form hidden">
+                <button type="button" class="cancel-btn" id="cancelBtn">
+                    <i class="fa fa-remove"></i>
+                </button>
                 <label for="habitName">Habit Title</label>
                 <input type="text" id="habitTitle" name="habitTitle" placeholder="Enter your habit" autocomplete="off">
 

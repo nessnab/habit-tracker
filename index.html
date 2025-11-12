@@ -16,7 +16,7 @@
 
     <main class="main">
         <section class="add-habit">
-            <button type="button" class="primary-btn add-btn" id="addBtn">
+            <button type="button" class="primary-btn add-btn" id="showFormBtn">
                 <i class="fa fa-plus-square"></i>
                 <span>Add New Habit</span>
             </button>
@@ -33,7 +33,7 @@
                 <input type="text" id="habitGoal" name="goal" placeholder="Enter your goal" autocomplete="off" required>
 
                 <label for="repeat">Repeat</label>
-                <select name="repeat" id="habitRepeat">
+                <select name="repeat" id="habitRepeat" required>
                     <option value="" disabled selected>Select Frequency</option>
                     <option value="daily">Daily</option>
                     <option value="weekly">Weekly</option>
@@ -90,7 +90,7 @@
                     </select>
                 </div> -->
                 
-                <button type="submit" id="addHabitButton" class="primary-btn">Add Habit</button>
+                <button type="submit" id="addBtn" class="primary-btn">Add Habit</button>
             </form>
         </section>
 

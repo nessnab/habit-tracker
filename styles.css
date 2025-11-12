@@ -56,6 +56,10 @@ body {
     justify-content: center;
 }
 
+.delete-btn, .edit-btn {
+    margin-right: 10px;
+}
+
 .primary-btn:hover {
     opacity: 90%;
 }

@@ -1,3 +1,4 @@
+const showFormBtn = document.getElementById('showFormBtn');
 const addBtn = document.getElementById('addBtn');
 const cancelBtn = document.getElementById('cancelBtn');
 const habitForm = document.getElementById('habitForm');
@@ -14,13 +15,13 @@ const weeklyDay = document.querySelector('.weekly-day');
 
 
 // Add button
-const addBtnToggle = () => {
-    addBtn.classList.toggle('hidden');
+const showBtnToggle = () => {
+    showFormBtn.classList.toggle('hidden');
     habitForm.classList.toggle('hidden');
 }
 
-addBtn.addEventListener('click', () => {
-  addBtnToggle();
+showFormBtn.addEventListener('click', () => {
+  showBtnToggle();
 })
 
 // Local storage
@@ -60,7 +61,8 @@ const addOrEditHabit = () => {
       repeat: habitRepeat.value,
       startTime: habitStartTime.value,
       weeklyDay: selectedWeeklyDay,
-      customDays: selectedCustomDays
+      customDays: selectedCustomDays,
+      trackedTime: trackedTime
   };
   
   if (dataIndex === -1) {
@@ -72,18 +74,18 @@ const addOrEditHabit = () => {
   localStorage.setItem('habits', JSON.stringify(habitData));
   showAllHabits();
   resetForm();
-  addBtnToggle();
+  showBtnToggle();
   // habitForm.reset();
 }
 
 
 // Cancel Button
 cancelBtn.addEventListener('click', () => {
-  addBtnToggle();
+  showBtnToggle();
 });
 
-// console.log(currentHabit);
-console.log(habitData);
+console.log(currentHabit);
+// console.log(habitData);
 
 //Display added habit
 const habitCard = (habit) => {
@@ -102,11 +104,11 @@ const habitCard = (habit) => {
     <p class="habit-start-time">Start Time: ${startTime}</p>
       `;
 
-      //delete button
+    //delete button
     const deleteBtn = document.createElement('button');
     deleteBtn.textContent = 'Delete';
     deleteBtn.classList.add('primary-btn');
-    // deleteBtn.classList.add('delete-btn');
+    deleteBtn.classList.add('delete-btn');
     deleteBtn.dataset.id = habit.id;
 
     deleteBtn.addEventListener('click', () => {
@@ -116,10 +118,18 @@ const habitCard = (habit) => {
     card.appendChild(deleteBtn);
 
     //edit button
-    // const editBtn = document.createElement('button');
-    // editBtn.textContent = 'Edit';
-    // editBtn.classList.add('primary-btn');
-    // editBtn.classList.add('edit-btn');
+    const editBtn = document.createElement('button');
+    editBtn.textContent = 'Edit';
+    editBtn.classList.add('primary-btn');
+    editBtn.classList.add('edit-btn');
+    editBtn.dataset.id = habit.id;
+
+    editBtn.addEventListener('click', () => {
+      editHabit(habit.id);
+      showBtnToggle();
+    })
+
+    card.appendChild(editBtn);
 
     return card;
   
@@ -167,8 +177,7 @@ const resetForm = () => {
   currentHabit = {};
 }
 
-
-
+// Delete Habit
 const deleteHabit = (id) => {
   const dataIndex = habitData.findIndex(habit => habit.id === Number(id));
 
@@ -180,8 +189,39 @@ const deleteHabit = (id) => {
 
 }
 
+// Edit Habit
+const editHabit = (id) => {
+  const dataIndex = habitData.findIndex(habit => habit.id === Number(id));
+  currentHabit = habitData[dataIndex];
 
+  if (dataIndex !== -1) {
+    habitTitle.value = currentHabit.name;
+    habitGoal.value = currentHabit.goal;
+    habitRepeat.value = currentHabit.repeat;
+    habitStartTime.value = currentHabit.startTime;
+
+    // Show/hide day selectors based on repeat value
+    if (currentHabit.repeat === 'weekly') {
+      weeklyDay.classList.remove('hidden');
+      customDays.classList.add('hidden');
+      document.querySelectorAll('input[name="weekly-day"]').forEach(input => {
+        input.checked = input.value === currentHabit.weeklyDay;
+      });
+    } else if (currentHabit.repeat === 'every') {
+      customDays.classList.remove('hidden');
+      weeklyDay.classList.add('hidden');
+      document.querySelectorAll('input[name="custom-day"]').forEach(input => {
+        input.checked = currentHabit.customDays.includes(input.value);
+      });
+    } else {
+      customDays.classList.add('hidden');
+      weeklyDay.classList.add('hidden');
+    }
+
+    addBtn.textContent = 'Update Habit';
+  }
+};
 
 // CHECKLIST
-// add icon for adding habit, hide the rest of the form
+// add icon for adding habit, 
 // add icon for tracking time

@@ -9,14 +9,15 @@ A simple, responsive habit tracker built with HTML, CSS, and JavaScript. Designe
 - Delete button
 - Add + cancel button
 - Edit button
+- Tracking habit timer start/end button
 
 🚀 Key Features Check
 
 - Add, Edit, Remove Habit
-- Elements of each habit: Name, Description, Goals, Schedule, Targetted Session (in min/hour)
-- Schedule each Habit Daily, weekly, same days each week
+- Elements of each habit: Name, Description, Goals, Schedule
+- Schedule each Habit Daily, weekly, or custom
 - Notify 5 to 10 mins before the habit starts
-- Manually track each session with starts and end button
+- Manually track each session with start and stop button
 - Track how many hours spends on a habit per day/week/months as milestone/streak
 - Stored each track to history of each habit
 

@@ -11,8 +11,6 @@ const habitStartTime = document.getElementById('startTime');
 
 const customDays = document.querySelector('.custom-day');
 const weeklyDay = document.querySelector('.weekly-day');
-    
-
 
 // Add button
 const showBtnToggle = () => {
@@ -27,6 +25,8 @@ showFormBtn.addEventListener('click', () => {
 // Local storage
 const habitData = JSON.parse(localStorage.getItem('habits')) || [];
 let currentHabit = {};
+let timers = {};
+formatTime();
 
 //Show or hide custom days based on repeat selection
 habitRepeat.addEventListener('change', () => {
@@ -44,6 +44,7 @@ habitRepeat.addEventListener('change', () => {
 
 // Handle form submission
 const addOrEditHabit = () => {
+  const timer = currentHabit.timer || 0;
 
   //Weekly Selected Day
   const selectedWeekly = document.querySelector('input[name="weekly-day"]:checked');
@@ -62,7 +63,7 @@ const addOrEditHabit = () => {
       startTime: habitStartTime.value,
       weeklyDay: selectedWeeklyDay,
       customDays: selectedCustomDays,
-      trackedTime: trackedTime
+      timer: timer
   };
   
   if (dataIndex === -1) {
@@ -89,7 +90,7 @@ console.log(currentHabit);
 
 //Display added habit
 const habitCard = (habit) => {
-  const { name, goal, repeat, startTime, weeklyDay, customDays } = habit;
+  const { name, goal, repeat, startTime, weeklyDay, customDays, timer } = habit;
 
   const card = document.createElement('div');
   card.classList.add('habit-card');
@@ -102,6 +103,8 @@ const habitCard = (habit) => {
     ${repeat === 'weekly' ? ` on ${weeklyDay}</p>` : ''}
     ${repeat === 'every' ? ` ${customDays.join(', ')}` : ''}</p>
     <p class="habit-start-time">Start Time: ${startTime}</p>
+    <p>Timer: <span id="timer-${habit.id}">${formatTime(habit.timer)}</span></p>
+
       `;
 
     //delete button
@@ -130,6 +133,20 @@ const habitCard = (habit) => {
     })
 
     card.appendChild(editBtn);
+
+    //timer button
+    const timerBtn = document.createElement('button');
+    timerBtn.textContent = 'Start';
+    timerBtn.classList.add('secondary-btn');
+    timerBtn.dataset.id = habit.id;
+    timerBtn.id = `timerBtn-${habit.id}`;
+
+    timerBtn.addEventListener('click', () => {
+      trackHabitTimer(habit.id);
+    });
+
+    card.appendChild(timerBtn);
+    
 
     return card;
   
@@ -187,6 +204,11 @@ const deleteHabit = (id) => {
     showAllHabits();
   }
 
+  // if (timers[id]) {
+  //   clearInterval(timers[id]);
+  //   delete timers[id];
+  // }
+
 }
 
 // Edit Habit
@@ -222,6 +244,41 @@ const editHabit = (id) => {
   }
 };
 
+// Format time 
+function formatTime(sec) {
+  const hrs = String(Math.floor(sec / 3600)).padStart(2, '0');
+  const mins = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+  const secs = String(sec % 60).padStart(2, '0');
+  return `${hrs}:${mins}:${secs}`;
+}
+
+// Track Habit Timer
+const trackHabitTimer = (id) => {
+  const dataIndex = habitData.findIndex(habit => habit.id === Number(id));
+  const habit = habitData[dataIndex];
+  const timerDisplay = document.getElementById(`timer-${id}`);
+  const timerBtn = document.getElementById(`timerBtn-${id}`);
+
+  if (!timers[id]) {
+    //Start timer
+    timers[id] = setInterval(() => {
+      habit.timer ++;
+      timerDisplay.textContent = formatTime(habit.timer);
+    }, 1000);
+    timerBtn.textContent = 'Stop';
+    timerBtn.classList.toggle('timer-btn');
+  } else if (timers[id]) {
+    //Stop Timer
+    clearInterval(timers[id]);
+    delete timers[id];
+    timerBtn.textContent = 'Start';
+    timerBtn.classList.toggle('timer-btn');
+    localStorage.setItem('habits', JSON.stringify(habitData));
+  }
+}
+
 // CHECKLIST
 // add icon for adding habit, 
 // add icon for tracking time
+//    <p>Timer: <span id="timer-${habit.id}">00:00:00</span></p>
+//    <p>Timer: <span id="timer-${habit.id}">${timer}</span></p>

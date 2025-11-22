@@ -9,6 +9,37 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
+
+    <dialog id="closeFormDialog" class="close-form-dialog">
+                    <form method="dialog" class="form-dialog">
+                        <p class="discard-text text">Discard unsaved changes?</p>
+        
+                        <div class="dialog-btn">
+                            <button class="cancel-btn primary-btn" id="cancelBtn">
+                                Cancel
+                            </button>
+                            <button class="discard-btn third-btn" id="discardBtn">
+                                Discard
+                            </button>
+                        </div>
+                    </form>
+            </dialog>
+
+            <dialog id="deleteConfirmDialog" class="delete-confirm-dialog">
+                    <form method="dialog">
+                        <p class="delete-text text">Are you sure want to delete this Habit?</p>
+        
+                        <div class="dialog-btn">
+                            <button class="cancel-btn primary-btn" id="cancelBtn">
+                                Cancel
+                            </button>
+                            <button class="delete-btn third-btn" id="deleteBtnDialog">
+                                Delete
+                            </button>
+                        </div>
+                    </form>
+            </dialog>
+
     
     <header class="header">
         <h1 class="h1">Habit Tracker App by Ness</h1>
@@ -23,10 +54,12 @@
             <!-- <h2 class="h2">Add New Habit</h2> -->
 
             <form id="habitForm" class="habit-form hidden">
-                <button type="button" class="close-icon" id="closeIcon">
-                    <i class="fa fa-remove"></i>
-                </button>
-                <label for="habitName">Habit Title</label>
+                <div class="icon-wrapper">
+                    <label for="habitName">Habit Title</label>
+                    <button type="button" class="close-icon" id="closeIcon">
+                        <i class="fa fa-remove"></i>
+                    </button>
+                </div>
                 <input type="text" id="habitTitle" name="habitTitle" placeholder="Enter your habit" autocomplete="off">
 
                 <label for="goal">Goal</label>
@@ -94,36 +127,7 @@
             </form>
         </section>
 
-            <dialog id="closeFormDialog" class="close-form-dialog">
-                    <form method="dialog" class="form-dialog">
-                        <p class="discard-text text">Discard unsaved changes?</p>
-        
-                        <div class="dialog-btn">
-                            <button class="cancel-btn primary-btn" id="cancelBtn">
-                                Cancel
-                            </button>
-                            <button class="discard-btn third-btn" id="discardBtn">
-                                Discard
-                            </button>
-                        </div>
-                    </form>
-            </dialog>
-
-            <dialog id="deleteConfirmDialog" class="delete-confirm-dialog">
-                    <form method="dialog">
-                        <p class="delete-text text">Are you sure want to delete this Habit?</p>
-        
-                        <div class="dialog-btn">
-                            <button class="cancel-btn primary-btn" id="cancelBtn">
-                                Cancel
-                            </button>
-                            <button class="delete-btn third-btn" id="deleteBtnDialog">
-                                Delete
-                            </button>
-                        </div>
-                    </form>
-            </dialog>
-
+            
         <section class="habit-display">
             <h2 class="h2">Your Habit</h2>
             <div class="habit-list" id="habitList">
@@ -133,7 +137,7 @@
             </div> -->
         </section>
 
-    </main>
+    </main>   
     
     
     <footer class="footer text">
@@ -144,4 +148,7 @@
 
     <script src="script.js"></script>
 </body>
+
+
+
 </html>

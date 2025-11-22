@@ -23,6 +23,7 @@ body {
     font-family: var(--font-family);
     background-color: var(--background-color);
     color: var(--font-color);
+    display: block;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -43,7 +44,7 @@ body {
 .text {
     text-align: center;
     font-size: var(--font-normal);
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .fa {
@@ -81,14 +82,19 @@ body {
     opacity: 90%;
 }
 
+.icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .close-icon {
     background-color: transparent;
     border: none;
     cursor: pointer;
     color: var(--third-color);
     text-align: right;
-    width: 100%;
-    padding: 5px 0 5px 5px;
+    padding: 5px 0 12px 5px;
     font-size: var(--font-larger);
 }
 
@@ -97,9 +103,10 @@ body {
     border: none;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    background: transparent;
-    width: 100%;
+    background-color: var(--background-color);
+    width: 90%;
     max-width: 250px;
+    margin: auto;
 }
 
 .dialog-btn {
@@ -156,7 +163,6 @@ body {
 .hidden {
     display: none;
 }
-
 
 
 /* Habit List Item */

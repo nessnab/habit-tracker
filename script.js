@@ -58,6 +58,11 @@ habitRepeat.addEventListener('change', () => {
 const addOrEditHabit = () => {
   const timer = currentHabit.timer || 0;
 
+  if(!habitTitle.value.trim()){
+    alert("Please provide a title");
+    return;
+  }
+
   //Weekly Selected Day
   const selectedWeekly = document.querySelector('input[name="weekly-day"]:checked');
   const selectedWeeklyDay = selectedWeekly ? selectedWeekly.value : null; //null if not selected
@@ -316,15 +321,11 @@ const trackHabitTimer = (id) => {
 // CHECKLIST
 // fixing issues when there's refresh while timer is running
 
-// alert if title empty space
-// centering dialog
-
-// add icon for adding habit, 
 // add icon for tracking time
 
 // check done for today habit
 // add confirmation for deleting habit
 // add notifications/reminders
 
-// streak tracking
+// streak tracking hrs / day?
 // improve styling and responsiveness

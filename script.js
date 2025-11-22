@@ -1,6 +1,16 @@
+// buttons form
 const showFormBtn = document.getElementById('showFormBtn');
+const closeIcon = document.getElementById('closeIcon');
+const closeFormDialog = document.getElementById('closeFormDialog');
 const addBtn = document.getElementById('addBtn');
+
+//Modal button
 const cancelBtn = document.getElementById('cancelBtn');
+const discardBtn = document.getElementById('discardBtn');
+const deleteBtnDialog = document.getElementById('deleteBtnDialog');
+const deleteConfirmDialog = document.getElementById('deleteConfirmDialog');
+
+// form handler
 const habitForm = document.getElementById('habitForm');
 const habitList = document.getElementById('habitList');
 // Get form values
@@ -9,10 +19,11 @@ const habitGoal = document.getElementById('habitGoal');
 const habitRepeat = document.getElementById('habitRepeat');
 const habitStartTime = document.getElementById('startTime');
 
+// repeat option
 const customDays = document.querySelector('.custom-day');
 const weeklyDay = document.querySelector('.weekly-day');
 
-// Add button
+// Add to show form button
 const showBtnToggle = () => {
     showFormBtn.classList.toggle('hidden');
     habitForm.classList.toggle('hidden');
@@ -27,6 +38,7 @@ const habitData = JSON.parse(localStorage.getItem('habits')) || [];
 let currentHabit = {};
 let timers = {};
 formatTime();
+
 
 //Show or hide custom days based on repeat selection
 habitRepeat.addEventListener('change', () => {
@@ -80,8 +92,25 @@ const addOrEditHabit = () => {
 }
 
 
-// Cancel Button
-cancelBtn.addEventListener('click', () => {
+// Close Button
+closeIcon.addEventListener('click', () => {
+  const formContainValues = habitTitle.value || habitGoal.value || habitRepeat.value || habitStartTime.value;
+  const formValuesUpdated = habitTitle.value !== currentHabit.name ||habitGoal.value !== currentHabit.goal || habitRepeat.value !== currentHabit.repeat || habitStartTime.value !== currentHabit.startTime;
+  
+  if (formContainValues && formValuesUpdated) {
+    closeFormDialog.showModal();
+  } else {
+    showBtnToggle();
+    resetForm();
+  }
+});
+
+// Confirm close form Modal buttons
+cancelBtn.addEventListener("click", () => closeFormDialog.close());
+
+discardBtn.addEventListener("click", () => {
+  closeFormDialog.close();
+  resetForm();
   showBtnToggle();
 });
 
@@ -110,11 +139,16 @@ const habitCard = (habit) => {
     //delete button
     const deleteBtn = document.createElement('button');
     deleteBtn.textContent = 'Delete';
-    deleteBtn.classList.add('primary-btn');
+    deleteBtn.classList.add('third-btn');
     deleteBtn.classList.add('delete-btn');
     deleteBtn.dataset.id = habit.id;
 
+    //delete confirmation dialog
     deleteBtn.addEventListener('click', () => {
+      deleteConfirmDialog.showModal();
+    });
+    
+    deleteBtnDialog.addEventListener('click', () => {
       deleteHabit(habit.id);
     })
 
@@ -204,10 +238,10 @@ const deleteHabit = (id) => {
     showAllHabits();
   }
 
-  // if (timers[id]) {
-  //   clearInterval(timers[id]);
-  //   delete timers[id];
-  // }
+  if (timers[id]) {
+    clearInterval(timers[id]);
+    delete timers[id];
+  }
 
 }
 
@@ -266,19 +300,31 @@ const trackHabitTimer = (id) => {
       timerDisplay.textContent = formatTime(habit.timer);
     }, 1000);
     timerBtn.textContent = 'Stop';
-    timerBtn.classList.toggle('timer-btn');
+    timerBtn.classList.toggle('third-btn');
   } else if (timers[id]) {
     //Stop Timer
     clearInterval(timers[id]);
     delete timers[id];
     timerBtn.textContent = 'Start';
-    timerBtn.classList.toggle('timer-btn');
+    timerBtn.classList.toggle('third-btn');
     localStorage.setItem('habits', JSON.stringify(habitData));
   }
 }
 
+
+
 // CHECKLIST
+// fixing issues when there's refresh while timer is running
+
+// alert if title empty space
+// centering dialog
+
 // add icon for adding habit, 
 // add icon for tracking time
-//    <p>Timer: <span id="timer-${habit.id}">00:00:00</span></p>
-//    <p>Timer: <span id="timer-${habit.id}">${timer}</span></p>
+
+// check done for today habit
+// add confirmation for deleting habit
+// add notifications/reminders
+
+// streak tracking
+// improve styling and responsiveness

@@ -23,7 +23,7 @@
             <!-- <h2 class="h2">Add New Habit</h2> -->
 
             <form id="habitForm" class="habit-form hidden">
-                <button type="button" class="cancel-btn" id="cancelBtn">
+                <button type="button" class="close-icon" id="closeIcon">
                     <i class="fa fa-remove"></i>
                 </button>
                 <label for="habitName">Habit Title</label>
@@ -94,6 +94,36 @@
             </form>
         </section>
 
+            <dialog id="closeFormDialog" class="close-form-dialog">
+                    <form method="dialog" class="form-dialog">
+                        <p class="discard-text text">Discard unsaved changes?</p>
+        
+                        <div class="dialog-btn">
+                            <button class="cancel-btn primary-btn" id="cancelBtn">
+                                Cancel
+                            </button>
+                            <button class="discard-btn third-btn" id="discardBtn">
+                                Discard
+                            </button>
+                        </div>
+                    </form>
+            </dialog>
+
+            <dialog id="deleteConfirmDialog" class="delete-confirm-dialog">
+                    <form method="dialog">
+                        <p class="delete-text text">Are you sure want to delete this Habit?</p>
+        
+                        <div class="dialog-btn">
+                            <button class="cancel-btn primary-btn" id="cancelBtn">
+                                Cancel
+                            </button>
+                            <button class="delete-btn third-btn" id="deleteBtnDialog">
+                                Delete
+                            </button>
+                        </div>
+                    </form>
+            </dialog>
+
         <section class="habit-display">
             <h2 class="h2">Your Habit</h2>
             <div class="habit-list" id="habitList">
@@ -106,7 +136,7 @@
     </main>
     
     
-    <footer class="footer">
+    <footer class="footer text">
         <p class="p">Created by Ness</p>
     </footer>
 

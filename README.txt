@@ -10,6 +10,8 @@ A simple, responsive habit tracker built with HTML, CSS, and JavaScript. Designe
 - Add + cancel button
 - Edit button
 - Tracking habit timer start/end button
+- Modal confirm close form
+- Modal delete confirm
 
 🚀 Key Features Check
 

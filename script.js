@@ -36,7 +36,7 @@ showFormBtn.addEventListener('click', () => {
 // Local storage
 const habitData = JSON.parse(localStorage.getItem('habits')) || [];
 let currentHabit = {};
-let timers = {};
+// let timers = {};
 formatTime();
 
 
@@ -57,6 +57,9 @@ habitRepeat.addEventListener('change', () => {
 // Handle form submission
 const addOrEditHabit = () => {
   const timer = currentHabit.timer || 0;
+  const isRunning = currentHabit.isRunning || false;
+  const lastStart = currentHabit.lastStart || null;
+  const displayInterval = currentHabit.displayInterval || null;
 
   if(!habitTitle.value.trim()){
     alert("Please provide a title");
@@ -80,7 +83,11 @@ const addOrEditHabit = () => {
       startTime: habitStartTime.value,
       weeklyDay: selectedWeeklyDay,
       customDays: selectedCustomDays,
-      timer: timer
+      timer: timer,
+      isRunning: isRunning,
+      lastStart: lastStart,
+      displayInterval: displayInterval
+      
   };
   
   if (dataIndex === -1) {
@@ -120,7 +127,7 @@ discardBtn.addEventListener("click", () => {
 });
 
 console.log(currentHabit);
-// console.log(habitData);
+console.log(habitData);
 
 //Display added habit
 const habitCard = (habit) => {
@@ -151,11 +158,11 @@ const habitCard = (habit) => {
     //delete confirmation dialog
     deleteBtn.addEventListener('click', () => {
       deleteConfirmDialog.showModal();
+      deleteBtnDialog.addEventListener('click', () => {
+        deleteHabit(habit.id);
+      })
     });
     
-    deleteBtnDialog.addEventListener('click', () => {
-      deleteHabit(habit.id);
-    })
 
     card.appendChild(deleteBtn);
 
@@ -186,13 +193,10 @@ const habitCard = (habit) => {
 
     card.appendChild(timerBtn);
     
-
     return card;
-  
 }
 
 // Render functions
-
 const clearHabitDisplay = () => {
   habitList.innerHTML = '';
 }
@@ -202,6 +206,15 @@ const showAllHabits = () => {
   habitData.forEach(habit => {
     const card = habitCard(habit);
     habitList.appendChild(card);
+
+    // updateTimerDisplay(habit);
+
+    if (habit.isRunning && habit.lastStart) {
+      habit.displayInterval = setInterval(() => {
+        updateTimerDisplay(habit);
+      }, 1000);
+      // startTimer(habit);
+    }
   });
 }
 
@@ -241,11 +254,6 @@ const deleteHabit = (id) => {
     habitData.splice(dataIndex, 1);
     localStorage.setItem("habits", JSON.stringify(habitData));
     showAllHabits();
-  }
-
-  if (timers[id]) {
-    clearInterval(timers[id]);
-    delete timers[id];
   }
 
 }
@@ -293,39 +301,69 @@ function formatTime(sec) {
 
 // Track Habit Timer
 const trackHabitTimer = (id) => {
-  const dataIndex = habitData.findIndex(habit => habit.id === Number(id));
-  const habit = habitData[dataIndex];
-  const timerDisplay = document.getElementById(`timer-${id}`);
-  const timerBtn = document.getElementById(`timerBtn-${id}`);
+  const habit = habitData.find(h => h.id === Number(id));
+  if (!habit) return;
 
-  if (!timers[id]) {
-    //Start timer
-    timers[id] = setInterval(() => {
-      habit.timer ++;
-      timerDisplay.textContent = formatTime(habit.timer);
-    }, 1000);
-    timerBtn.textContent = 'Stop';
-    timerBtn.classList.toggle('third-btn');
-  } else if (timers[id]) {
-    //Stop Timer
-    clearInterval(timers[id]);
-    delete timers[id];
-    timerBtn.textContent = 'Start';
-    timerBtn.classList.toggle('third-btn');
-    localStorage.setItem('habits', JSON.stringify(habitData));
+  if(habit.isRunning) {
+    stopTimer(habit);
+  } else {
+    startTimer(habit);
   }
+  localStorage.setItem('habits', JSON.stringify(habitData));
+}
+
+// Start timer
+const startTimer = (habit) => {
+  habit.isRunning = true;
+  habit.lastStart = Date.now();
+  
+  habit.displayInterval = setInterval(() => {
+    updateTimerDisplay(habit);
+  }, 1000)
 }
 
 
+// Stop timer
+const stopTimer = (habit) => {
+  const now = Date.now();
+  const elapsed = Math.floor((now - habit.lastStart) / 1000);
+  habit.timer += elapsed;
+  habit.isRunning = false;
+  habit.lastStart = null;
+  
+  clearInterval(habit.displayInterval);
+  updateTimerDisplay(habit);
+}
 
-// CHECKLIST
-// fixing issues when there's refresh while timer is running
+// Update timer display
+const updateTimerDisplay = (habit) => {
+  const display = document.querySelector(`#timer-${habit.id}`);
+  const timerBtn = document.querySelector(`#timerBtn-${habit.id}`);
 
+  const now = Date.now();
+  const elapsed = habit.isRunning ? Math.floor((now - habit.lastStart) / 1000) : 0;
+
+  if (habit.isRunning && habit.lastStart) {
+    timerBtn.textContent = 'Stop';
+    timerBtn.classList.add('third-btn');
+  } else {
+    timerBtn.textContent = 'Start';
+    timerBtn.classList.remove('third-btn');
+  }
+
+  const totalTime = habit.timer + elapsed;
+  display.textContent = formatTime(totalTime);
+}
+
+
+// CHECKLIST==================================================================================
+// fixing there'll be only one track at a time
 // add icon for tracking time
 
 // check done for today habit
-// add confirmation for deleting habit
 // add notifications/reminders
 
 // streak tracking hrs / day?
 // improve styling and responsiveness
+
+// fixing small issues when there's refresh button back to green for a sec

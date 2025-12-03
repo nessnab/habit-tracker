@@ -14,6 +14,7 @@ A simple, responsive habit tracker built with HTML, CSS, and JavaScript. Designe
 - Modal delete confirm
 - Alert empty space title
 - Timer still running after load page
+- Track one habit at a time
 
 🚀 Key Features Check
 

@@ -17,11 +17,14 @@ const habitList = document.getElementById('habitList');
 const habitTitle = document.getElementById('habitTitle');
 const habitGoal = document.getElementById('habitGoal');
 const habitRepeat = document.getElementById('habitRepeat');
-const habitStartTime = document.getElementById('startTime');
+const habitTime = document.getElementById('habitTime');
 
 // repeat option
 const customDays = document.querySelector('.custom-day');
 const weeklyDay = document.querySelector('.weekly-day');
+
+let activeTimerId = null;
+// let timers = {};
 
 // Add to show form button
 const showBtnToggle = () => {
@@ -36,7 +39,6 @@ showFormBtn.addEventListener('click', () => {
 // Local storage
 const habitData = JSON.parse(localStorage.getItem('habits')) || [];
 let currentHabit = {};
-// let timers = {};
 formatTime();
 
 
@@ -80,7 +82,7 @@ const addOrEditHabit = () => {
       name: habitTitle.value,
       goal: habitGoal.value,
       repeat: habitRepeat.value,
-      startTime: habitStartTime.value,
+      time: habitTime.value,
       weeklyDay: selectedWeeklyDay,
       customDays: selectedCustomDays,
       timer: timer,
@@ -106,8 +108,8 @@ const addOrEditHabit = () => {
 
 // Close Button
 closeIcon.addEventListener('click', () => {
-  const formContainValues = habitTitle.value || habitGoal.value || habitRepeat.value || habitStartTime.value;
-  const formValuesUpdated = habitTitle.value !== currentHabit.name ||habitGoal.value !== currentHabit.goal || habitRepeat.value !== currentHabit.repeat || habitStartTime.value !== currentHabit.startTime;
+  const formContainValues = habitTitle.value || habitGoal.value || habitRepeat.value || habitTime.value;
+  const formValuesUpdated = habitTitle.value !== currentHabit.name || habitGoal.value !== currentHabit.goal || habitRepeat.value !== currentHabit.repeat || habitTime.value !== currentHabit.time;
   
   if (formContainValues && formValuesUpdated) {
     closeFormDialog.showModal();
@@ -131,7 +133,7 @@ console.log(habitData);
 
 //Display added habit
 const habitCard = (habit) => {
-  const { name, goal, repeat, startTime, weeklyDay, customDays, timer } = habit;
+  const { name, goal, repeat, time, weeklyDay, customDays, timer } = habit;
 
   const card = document.createElement('div');
   card.classList.add('habit-card');
@@ -143,7 +145,7 @@ const habitCard = (habit) => {
     <p class="habit-repeat">Repeat: ${repeat}
     ${repeat === 'weekly' ? ` on ${weeklyDay}</p>` : ''}
     ${repeat === 'every' ? ` ${customDays.join(', ')}` : ''}</p>
-    <p class="habit-start-time">Start Time: ${startTime}</p>
+    <p>Start Time: ${time}</p>
     <p>Timer: <span id="timer-${habit.id}">${formatTime(habit.timer)}</span></p>
 
       `;
@@ -188,7 +190,7 @@ const habitCard = (habit) => {
     timerBtn.id = `timerBtn-${habit.id}`;
 
     timerBtn.addEventListener('click', () => {
-      trackHabitTimer(habit.id);
+      toggleHabitTimer(habit.id);
     });
 
     card.appendChild(timerBtn);
@@ -234,7 +236,7 @@ const resetForm = () => {
   habitTitle.value = '';
   habitGoal.value = '';
   habitRepeat.value = '';
-  habitStartTime.value = '';
+  habitTime.value = '';
 
   //hide custom and weekly day selectors
   customDays.classList.add('hidden');
@@ -267,7 +269,7 @@ const editHabit = (id) => {
     habitTitle.value = currentHabit.name;
     habitGoal.value = currentHabit.goal;
     habitRepeat.value = currentHabit.repeat;
-    habitStartTime.value = currentHabit.startTime;
+    habitTime.value = currentHabit.time;
 
     // Show/hide day selectors based on repeat value
     if (currentHabit.repeat === 'weekly') {
@@ -300,15 +302,42 @@ function formatTime(sec) {
 }
 
 // Track Habit Timer
-const trackHabitTimer = (id) => {
-  const habit = habitData.find(h => h.id === Number(id));
+const toggleHabitTimer = (id) => {
+  // const habit = habitData.find(h => h.id === Number(id));
+  activeTimerId = id;
+  const habit = habitData.find(h => h.id === activeTimerId);
   if (!habit) return;
 
-  if(habit.isRunning) {
+  if (!habit.isRunning) {
+    // Before starting, stop all other running habits
+    habitData.forEach(h => {
+      if (h.isRunning && h.id !== habit.id) {
+        alert(`Do you want to stop "${h.name}" before starting this habit?`);
+        stopTimer(h);
+        return;
+      }
+    });
+
+    // If no other habit is running → start this one
+    startTimer(habit);
+
+  } else if (habit.isRunning) {
+    // Stop this habit
     stopTimer(habit);
   } else {
-    startTimer(habit);
+    alert("Error toggling timer");
   }
+
+
+
+  // if(!habit.isRunning) {
+  //   startTimer(habit);
+  // } else if (habit.isRunning) {
+  //   stopTimer(habit);
+  // } else {
+  //   alert("Error toggling timer");
+  // }
+
   localStorage.setItem('habits', JSON.stringify(habitData));
 }
 
@@ -357,7 +386,6 @@ const updateTimerDisplay = (habit) => {
 
 
 // CHECKLIST==================================================================================
-// fixing there'll be only one track at a time
 // add icon for tracking time
 
 // check done for today habit

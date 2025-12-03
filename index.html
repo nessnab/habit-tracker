@@ -10,7 +10,7 @@
 </head>
 <body>
 
-    <dialog id="closeFormDialog" class="close-form-dialog">
+    <dialog id="closeFormDialog" class="close-form-dialog dialog">
                     <form method="dialog" class="form-dialog">
                         <p class="discard-text text">Discard unsaved changes?</p>
         
@@ -25,7 +25,7 @@
                     </form>
             </dialog>
 
-            <dialog id="deleteConfirmDialog" class="delete-confirm-dialog">
+            <dialog id="deleteConfirmDialog" class="delete-confirm-dialog dialog">
                     <form method="dialog">
                         <p class="delete-text text">Are you sure want to delete this Habit?</p>
         
@@ -39,7 +39,6 @@
                         </div>
                     </form>
             </dialog>
-
     
     <header class="header">
         <h1 class="h1">Habit Tracker App by Ness</h1>
@@ -112,7 +111,7 @@
                 </fieldset>
 
                 <label for="startTime">Start Time</label>
-                <input type="time" id="startTime" name="startTime" required>
+                <input type="time" id="habitTime" name="startTime" required>
 
                 <!-- <label for="duration">Duration</label>
                 <div role="group" aria-label="duration">
@@ -133,8 +132,7 @@
             <div class="habit-list" id="habitList">
 
             </div>
-            <!-- <div class="habit-item" id="habitItem">
-            </div> -->
+
         </section>
 
     </main>   

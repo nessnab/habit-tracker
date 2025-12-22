@@ -3,6 +3,7 @@ const showFormBtn = document.getElementById('showFormBtn');
 const closeIcon = document.getElementById('closeIcon');
 const closeFormDialog = document.getElementById('closeFormDialog');
 const addBtn = document.getElementById('addBtn');
+const showAllHabitsBtn = document.getElementById('showAllHabitsBtn');
 
 //Modal button
 const cancelBtn = document.getElementById('cancelBtn');
@@ -23,7 +24,15 @@ const habitTime = document.getElementById('habitTime');
 const customDays = document.querySelector('.custom-day');
 const weeklyDay = document.querySelector('.weekly-day');
 
+// show today habit
+const todayHabitList = document.getElementById('todayHabitList');
+const today = new Date();
+const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const todayName = dayNames[today.getDay()];
+
 let activeTimerId = null;
+let showingAll = false;
+let showingToday = true;
 // let timers = {};
 
 // Add to show form button
@@ -201,7 +210,42 @@ const habitCard = (habit) => {
 // Render functions
 const clearHabitDisplay = () => {
   habitList.innerHTML = '';
+  todayHabitList.innerHTML = '';
 }
+
+// show today habit
+const getHabitsForToday = () => {
+  return habitData.filter(habit => {
+    if (habit.repeat === 'daily') {
+      return true;
+    }
+    if (habit.repeat === 'weekly' && habit.weeklyDay === todayName) {
+      return habit.weeklyDay === todayName;
+    }
+    if (habit.repeat === 'every') {
+      return habit.customDays.includes(todayName);
+    }
+    return false;
+  })
+}
+
+// display today habit
+const showHabitToday = () => {
+  clearHabitDisplay();
+  getHabitsForToday().forEach(habit => {
+    const card = habitCard(habit);
+    todayHabitList.appendChild(card);
+
+    if (habit.isRunning && habit.lastStart) {
+      habit.displayInterval = setInterval(() => {
+        updateTimerDisplay(habit);
+      }, 1000);
+      // startTimer(habit);
+    }
+  });
+  
+}
+
 
 const showAllHabits = () => {
   clearHabitDisplay();
@@ -220,9 +264,27 @@ const showAllHabits = () => {
   });
 }
 
+
+// Initial display
 if (habitData.length > 0) {
-  showAllHabits();
+  showHabitToday();
 }
+
+// all habit display button
+showAllHabitsBtn.addEventListener("click", () => {
+  clearHabitDisplay();
+  if (showingAll) {
+    showHabitToday();
+    showAllHabitsBtn.innerHTML = `<i class="fa fa-caret-down"></i><span>Show All Habits</span>`;
+    showingAll = false;
+  } else {
+    clearHabitDisplay();
+    showAllHabits();
+    showAllHabitsBtn.innerHTML = `<i class="fa fa-caret-up"></i><span>Hide All Habits</span>`;
+    showingAll = true;
+  }
+
+});
       
 habitForm.addEventListener('submit', (e) => {
     e.preventDefault(); // Prevent form from submitting normally
@@ -329,7 +391,6 @@ const toggleHabitTimer = (id) => {
   }
 
 
-
   // if(!habit.isRunning) {
   //   startTimer(habit);
   // } else if (habit.isRunning) {
@@ -385,13 +446,18 @@ const updateTimerDisplay = (habit) => {
 }
 
 
+
 // CHECKLIST==================================================================================
 // add icon for tracking time
+// improve styling 
+// responsiveness
 
-// check done for today habit
+// show which habit to do today
+
 // add notifications/reminders
 
-// streak tracking hrs / day?
-// improve styling and responsiveness
+// streak tracking 30 mins per day (popup)
+// streak cumulative 10 hours, 20 hours, 50 hours
 
 // fixing small issues when there's refresh button back to green for a sec
+// random placeholder text in form

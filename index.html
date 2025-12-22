@@ -46,7 +46,7 @@
 
     <main class="main">
         <section class="add-habit">
-            <button type="button" class="primary-btn add-btn" id="showFormBtn">
+            <button type="button" class="primary-btn" id="showFormBtn">
                 <i class="fa fa-plus-square"></i>
                 <span>Add New Habit</span>
             </button>
@@ -128,11 +128,21 @@
 
             
         <section class="habit-display">
-            <h2 class="h2">Your Habit</h2>
+            <h2 class="h2">Today's Habit</h2>
+            <div class="habit-list" id="todayHabitList">
+                
+            </div>
+        </section>
+        
+        <section class="habit-display">
             <div class="habit-list" id="habitList">
+                <!-- <h2 class="h2">All Habits</h2> -->
 
             </div>
-
+            <button type="button" class="primary-btn" id="showAllHabitsBtn">
+                <i class="fa fa-caret-down"></i>
+                <span>Show All Habit</span>
+            </button>
         </section>
 
     </main>   

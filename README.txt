@@ -38,3 +38,14 @@ A simple, responsive habit tracker built with HTML, CSS, and JavaScript. Designe
 Clone the repo:
 ```bash
 git clone https://github.com/nessnab/habit-tracker.git
+
+
+
+
+
+
+// show today habit
+const todayHabitList = document.getElementById('todayHabitList');
+const today = new Date();
+const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const todayName = dayNames[today.getDay()];
